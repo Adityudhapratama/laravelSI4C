@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\periode;
+use App\Models\Periode;
 use Illuminate\Http\Request;
 
 class PeriodeController extends Controller
@@ -12,9 +12,10 @@ class PeriodeController extends Controller
      */
     public function index()
     {
-        //akses model Periode
-         $result = Periode::all(); //select * from periodes
-        dd($result);
+        // akses model Periode 
+        $result = Periode::all(); // select * from periode
+        // dd($result);
+        return view('periode.index', compact('result'));
     }
 
     /**
@@ -22,7 +23,7 @@ class PeriodeController extends Controller
      */
     public function create()
     {
-        //
+        return view('periode.create');
     }
 
     /**
@@ -30,13 +31,23 @@ class PeriodeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi data
+        $request->validate([
+            'tahun_akademik' => 'required',
+            'kode_smt' => 'required',
+        ]);
+
+        // simpan data ke database
+        Periode::create($request->all());
+
+        // redirect ke halaman index dengan pesan sukses
+        return redirect()->route('periode.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(periode $periode)
+    public function show(Periode $periode)
     {
         //
     }
@@ -44,7 +55,7 @@ class PeriodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(periode $periode)
+    public function edit(Periode $periode)
     {
         //
     }
@@ -52,7 +63,7 @@ class PeriodeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, periode $periode)
+    public function update(Request $request, Periode $periode)
     {
         //
     }
@@ -60,8 +71,11 @@ class PeriodeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(periode $periode)
+    public function destroy($periode)
     {
-        //
+        $periode = Periode::find($periode, 'id');
+        // dd($periode);
+        $periode->delete(); // delete from periode where id = $periode
+        return redirect()->route('periode.index')->with('success', 'Data periode berhasil dihapus'); // redirect ke halaman index periode
     }
 }
