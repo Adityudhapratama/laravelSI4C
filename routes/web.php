@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\PeriodeController;/
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
